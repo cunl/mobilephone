@@ -1,0 +1,33 @@
+移动端触摸事件：
+	touchstart事件：当手指触摸屏幕时候触发，即使已经有一个手指放在屏幕上也会触发。 
+	touchmove事件：当手指在屏幕上滑动的时候连续地触发。在这个事件发生期间，调用preventDefault()事件可以阻止滚动。 
+	touchend事件：当手指从屏幕上离开的时候触发。 
+	touchcancel事件：当系统停止跟踪触摸的时候触发。关于这个事件的确切出发时间，文档中并没有具体说明，咱们只能去猜测了。
+	
+触摸事件还包含下面三个用于跟踪触摸的属性：
+　　touches：表示当前跟踪的触摸操作的touch对象的数组。 
+　　targetTouches：特定于事件目标的Touch对象的数组。 
+　　changeTouches：表示自上次触摸以来发生了什么改变的Touch对象的数组。 
+
+　　每个Touch对象包含的属性：
+	　　clientX：触摸目标在视口中的x坐标。 
+	　　clientY：触摸目标在视口中的y坐标。 
+	　　identifier：标识触摸的唯一ID。 
+	　　pageX：触摸目标在页面中的x坐标。 
+	　　pageY：触摸目标在页面中的y坐标。 
+	　　screenX：触摸目标在屏幕中的x坐标。 
+	　　screenY：触摸目标在屏幕中的y坐标。 
+	　　target：触摸目的DOM节点目标。
+	
+	
+移动端常用插件之zepto-fullpage：https://github.com/yanhaijing/zepto.fullpage【可实现移动端的单页滚动效果，可自定义参数，提供回调接口，和公开接口】
+
+
+Swiper插件：
+http://idangero.us/swiper/get-started/#.V867VOt9600
+https://github.com/nolimits4web/Swiper
+swiper中文站：http://www.swiper.com.cn/usage/index.html
+
+
+移动端常用插件之lazyload：让页面加载图片时按需加载，不在页面显示区域的图片，暂时不加载。以提高页面加载效率
+https://github.com/tuupola/jquery_lazyload
