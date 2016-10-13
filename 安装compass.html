@@ -1,0 +1,62 @@
+compass用法指南：http://www.360doc.com/content/14/0524/00/3610408_380367040.shtml
+				 http://compass-style.org/examples/
+
+ruby下载和安装：http://rubygems.org/
+
+安装完ruby：
+	1.
+		gem sources -a http://rubygems.org/  --remove https://rubygems.org/【出现提示时需要输入y再按回车】
+		gem sources -l查看是否成功
+
+	2.
+		安装sass
+			gem install sass
+			sass -v	查看sass是否安装成功
+
+	3.
+		gem install compass
+			compass -v	查看是否安装成功
+
+	4.
+		运行：
+			打开ruby面板，去到当前项目目录中
+			compass init
+
+			修改config.rb,将路径改为自己的项目存放的路径，将line_comments = false的注释删掉
+			
+			
+			在项目中将不要的sass文件和stylesheet文件删掉
+			如果需要引进compass中的reset，只需要在sass文件中加入	@import "compass/reset"
+
+			compass watch
+
+			【注意】已经init过了的项目，下次使用compass时不需要再init了
+					sass不支持中文，注释也不可以是中文
+
+					
+					在sass文件中加入这句代码，每次需要转换成rem都可以调用这个函数，传入设计图中的px值就可以了
+						$default-font-size:20px;
+						@function pxToRem($px){
+							@return ($px / $default-font-size / 2) * 1rem;
+						}
+
+					
+					用for循环实现类似代码的书写：【注意：#{$i}，如果只写$i会报错】
+						@for $i from 1 through 3{
+							p.dial:nth-of-type(#{$i}){
+								transform: rotate(+30*$i+deg);
+							}
+						}
+
+						编译完的css样式：
+							p.dial:nth-of-type(1) {
+							  transform: rotate(30deg);
+							}
+
+							p.dial:nth-of-type(2) {
+							  transform: rotate(60deg);
+							}
+
+							p.dial:nth-of-type(3) {
+							  transform: rotate(90deg);
+							}
