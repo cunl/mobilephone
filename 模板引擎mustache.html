@@ -1,0 +1,40 @@
+具体网站：https://github.com/janl/mustache.js
+
+<!-- 循环语法：对请求到的数据中的result进行循环处理 -->
+<!-- 一个页面中可以有多个模板，每个模板都用script标签分开，且type="x-tmpl-mustache" -->
+<script type="x-tmpl-mustache" id='list1'>
+    {{#result}}
+        <li class="list_1">
+        	// 将result中的title的值写入h2中
+            <h2>{{title}}</h2>
+            <div></div>
+            <p><span>{{ctime}}</span></p>
+        </li>
+    {{/result}}
+</script>
+
+
+<script type="text/javascript">
+    $(function(){
+        $.ajax({
+            url:'json/guoneinews1.json',
+            type:'GET',
+            dataType:'json'
+        })
+        .done(function(data){
+            var str=$('#list1').html();
+
+            // 把请求到的数据传进模板中，应用到id为list1的模板
+            var htmlstr = Mustache.render(str,data);
+
+            // 再将通过模板得到的数据写入页面
+            $('.list').html(htmlstr);
+        })
+        .fail(function(){
+            console.log('error');
+        })
+        .always(function(){
+            console.log('complete');
+        });
+    });
+</script>

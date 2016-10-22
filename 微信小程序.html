@@ -1,0 +1,124 @@
+微信小程序开发工具安装
+	官方文档：https://mp.weixin.qq.com/wiki
+	https://mp.weixin.qq.com/debug/wxadoc/dev/component/scroll-view.html?t=1476197486543
+	
+
+一个框架页面由四个文件组成：
+	要求命名相同	js	wxml	wxss	json
+	
+
+图片文件夹：images
+所有页面：pages
+公共js：utils
+
+
+app.json的配置：
+	{
+		<!-- 设置页面路径，每个新建的页面都得在里面设置 -->
+		"pages":[
+			"pages/index/index",
+			"pages/logs/logs",
+			"pages/myhtml/myhtml"
+		],
+		<!-- 设置默认的页面的窗口表现 -->
+		"window":{
+			<!-- 下拉背景字体、loading 图的样式，仅支持dark/light -->
+			"backgroundTextStyle":"light",
+
+			<!-- 导航栏背景颜色 -->
+			"navigationBarBackgroundColor": "#fff",
+
+			<!-- 导航栏标题文字内容 -->
+			"navigationBarTitleText": "lin",
+
+			<!-- 导航栏标题颜色，仅支持 black/white -->
+			"navigationBarTextStyle":"black",
+
+			<!-- 是否开启下拉刷新,默认为false -->
+			"enablePullDownRefresh":false
+		},
+		<!-- 设置底部tab菜单 -->
+		"tabBar":{
+			<!-- 底部菜单列表，最少2个，最多5个 -->
+			"list":[{
+					<!-- 页面路径 -->
+					"pagePath":"pages/index/index",
+
+					<!-- tab上按钮文字 -->
+					"text":"我的首页",
+
+					<!-- 图片路径，大小限制为40kb -->
+					"iconPath":"",
+
+					<!-- 选中时的图片路径，大小限制为40kb -->
+          			"selectedIconPath":""
+				},{
+					 "pagePath":"pages/logs/logs",
+					"text":"我的日志"
+				}],
+
+			<!-- tab上的文字默认颜色 -->
+	        "color":"#c40000",
+
+	        <!-- tab上的文字选中时的颜色 -->
+	        "selectedColor":"#000",
+
+	        <!-- tab的背景色 -->
+	        "backgroundColor":"yellow",
+
+	        <!-- 上边框的颜色，仅支持black和white -->
+	        "borderStyle":"black"
+
+		},
+		<!-- 设置网络超时时间 -->
+		"networkTimeout": { "request": 10000, "downloadFile": 10000 ,"connectSocket":"10000","uploadFile":"10000"}, 
+
+		<!-- 设置是否开启debug模式 -->
+		"debug": true
+	}
+
+
+
+app.js配置：	
+	<!-- 注册一个小程序 -->
+	App({
+		<!-- 监听小程序初始化，只触发一次 -->
+		onLaunch: function () {
+
+		},
+		<!-- 当小程序启动或从后台进入前台显示触发-->
+		onShow:function(){
+
+		},
+		<!-- 当小程序从前台进入后台触发 -->
+		onHide:function(){
+
+		},
+		globalData:{
+			
+		}
+	});
+-------------------------------------------------------------------------------
+在pages中的js
+	获取应用实例：
+		var app = getApp();
+
+
+Page()用来注册一个页面
+	data页面的初始数据
+	onLoad监听页面加载
+	onReady监听页面初次渲染完成
+	onShow监听页面显示
+	onHide监听页面隐藏
+	onUnload监听页面卸载，当redirectTo或navigateBack的时候调用
+	onPullDownRefreash监听用户下拉
+
+点击事件：bindtap
+
+
+setData()用来改变this.data
+
+
+列表循环：wx:for	wx:for-item		wx:for-index
+数据绑定：{{}}
+条件语句：wx:if	wx:elif wx:else

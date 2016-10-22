@@ -1,0 +1,274 @@
+使用API的Cordova文档：http://cordova.apache.org/plugins/
+安装命令将add改为remove就可以移除插件
+
+Cordova核心API:
+加速度计(Accelerometer)
+相机(Camera)
+录制(Capture)
+指南针(Compass)
+网络连接(Connection)
+联系人(Contacts)
+设备(Device)
+事件(Events)
+文件(File)
+地理定位(Geolocation)
+全球化(Globalization)
+内置浏览器(InAppBrowser)
+多媒体(Media)
+消息提醒(Notification)
+闪屏(Splashscreen)
+存储(Storage)
+
+【
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+	<script type="text/javascript" src="../cordova.js"></script>
+
+
+	<script type="text/javascript">
+		window.onload = function() {
+			document.addEventListener("deviceready",function(){
+				
+			});
+		}	
+	</script>
+】
+
+Connection类型
+	移动应用时常需要知道可用网络连接的类型。因为网络服务商在对超出的数据流量要收取费用，应用在进行数据量大的升级时建议使用收费低的Wifi而不要使用蜂窝移动网络。通过Connection接口可以获取网络类型及连网状态。
+
+	安装命令：cordova plugin add cordova-plugin-network-information
+
+	function checkConnection() {
+	    var networkState = navigator.connection.type;
+
+	    var states = {};
+	    states[Connection.UNKNOWN]  = 'Unknown connection';
+	    states[Connection.ETHERNET] = 'Ethernet connection';
+	    states[Connection.WIFI]     = 'WiFi connection';
+	    states[Connection.CELL_2G]  = 'Cell 2G connection';
+	    states[Connection.CELL_3G]  = 'Cell 3G connection';
+	    states[Connection.CELL_4G]  = 'Cell 4G connection';
+	    states[Connection.CELL]     = 'Cell generic connection';
+	    states[Connection.NONE]     = 'No network connection';
+
+	alert('Connection type: ' + states[networkState]);
+	}
+
+	document.addEventListener("offline", yourCallbackFunction, false);
+	document.addEventListener("online", yourCallbackFunction, false);
+--------------------------------------------------------------------------
+Device
+	device对象可以用来确定设备的有限数量的信息。
+
+	安装命令：cordova plugin add cordova-plugin-device
+
+	可用的设备属性如下：
+	device.name			    设备名称
+	device.cordova		    cordova版本
+	device.platform		    平台(android or ios)
+	device.uuid				全球唯一标识符(Universally Unique Identifier)
+	device.verson			操作系统版本号
+	device.model			设备型号
+	device.serial			设备序列号
+	device. manufacturer 	设备制造商
+-------------------------------------------------------------------------
+警告用户：
+	安装命令：cordova plugin add cordova-plugin-vibration
+
+	震动：
+		navigator.vibrate(time);毫秒为单位
+------------------------------------------------------------------------
+弹窗：
+	安装命令：cordova plugin add cordova-plugin-dialogs
+	
+	alert：
+		navigator.notification.alert(
+		    'You are the winner!',  // message
+		    callback,               // callback
+		    'Game Over',            // title
+		    'Done'                  // buttonName
+		);
+	
+	confirm：
+		navigator.notification.confirm(
+		    'You are the winner!', // message
+		     callback,             // callback to invoke with index of button pressed
+		    'Game Over',           // title
+		    ['Restart','Exit']     // buttonLabels
+		);
+
+	
+	prompt：
+		navigator.notification.prompt(
+		    'Please enter your name',  // message
+		    callback,                  // callback to invoke
+		    'Registration',            // title
+		    ['Ok','Exit'],             // buttonLabels
+		    'Jane Doe'                 // defaultText
+		);
+
+
+	beep：蜂鸣
+		navigator.notification.beep(2);参数为次数
+-------------------------------------------------------------------------------
+cordova事件：
+	backbutton				用户按设备后退键时触发
+	batterycritical			电池达到关键状态时触发。关键状态的定义因平台而异
+	batterylow				电池低电量状态时触发。低电量状态的定义因平台而异
+	batterystatus			电池状态至少改变1%时时触发(增加或减少)
+	deviceready				cordova容器完成初始化时触发
+	endcallbutton			在用户按手机的结束通话键时触发
+	menubutton				在用户按手机的菜单键时触发
+	offline					在设备失去网络连接时触发
+	online					在设备由没有网络连接转换到连接状态时触发
+	pause					cordova应用被挂起时触发。一般发生在用户跳转到另一个应用，系统把当前应用放在后台时
+	resume					在被挂起的应用转到前台时触发
+	searchbutton			在用户按查找键时触发
+	startcallbutton			在用户按通话键时触发
+	volumedownbutton		用户按音量减少键时触发
+	volumnupbutton			用户按音量键增加时触发
+
+	电池状态必须安装电池状态插件：cordova plugin add cordova-plugin-battery-status
+--------------------------------------------------------------------------------
+InAppBrowser：
+	安装命令：cordova plugin add cordova-plugin-inappbrowser
+	var ref = cordova.InAppBrowser.open(url,target,options);
+		target：_self	_blank	_system
+		options：具体看【http://cordova.apache.org/docs/en/latest/reference/cordova-plugin-inappbrowser/index.html】
+			location=yes/no
+			hidden
+			clearcache
+
+	ref.addEventListener(eventname, callback);
+		eventname：
+			loadstart加载开始事件
+			loadstop加载完成事件
+			loaderror加载出错事件
+			exit
+
+	ref.close();
+	ref.show();==>>hidden=yes时
+	
+	引进自定义的js代码：
+		ref.executeScript({
+			file:引进外网文件
+			code:自定义代码
+		},successfn);
+
+	引进自定义css文件：
+		ref.insertCSS({
+			file:引进外网文件
+			code:自定义代码
+		}, successfn);
+-----------------------------------------------------------------------
+播放/记录媒体文件
+	安装命令：cordova plugin add cordova-plugin-media
+	var media = new Media(src, mediaSuccess, [mediaError], [mediaStatus]);
+	【src：'/android_asset/www/music/yhyl.mp3'】
+
+	media.play();开始播放
+	media.pause();停止播放
+
+	var timerDur = setInterval(function() {
+	    var dur = mObj.getDuration();==>音乐总时长【如果放在定时器外面，获取到的是-1】
+		
+		mObj.getCurrentPosition(function(position){
+			position当前的播放位置
+		});
+	},100);
+--------------------------------------------------------------------
+Camera(相机)
+	安装命令：cordova plugin add cordova-plugin-camera
+	navigator.camera.getPicture(cameraSuccess, cameraError, cameraOptions);
+
+	var cameraOptions= {
+	    quality : 75,
+	    destinationType : Camera.DestinationType.DATA_URL,
+	    sourceType : Camera.PictureSourceType.CAMERA,
+	    allowEdit : true,
+	    encodingType : Camera.EncodingType.JPEG,
+	    targetWidth : 100,
+	    targetHeight : 100,
+	    popoverOptions : CameraPopoverOptions,
+	    saveToPhotoAlbum : false
+	};
+	
+
+	function onSuccess(imageData) {
+	    var image = document.getElementById('myImage');
+	    image.src = "data:image/jpeg;base64," + imageData;
+	}
+
+	function onFail(message) {
+	    alert('Failed because: ' + message);
+	}
+---------------------------------------------------
+地理位置：
+	安装命令：cordova plugin add cordova-plugin-geolocation
+
+	navigator.geolocation.getCurrentPosition(onSuccess,[onError],[Options]);
+	function onSuccess(position){
+		position.coords.latitude 			纬度
+		position.coords.longitude 			经度
+		position.coords.altitude 			海拔高度
+		position.coords.accuracy 			用米做单位的经度和纬度坐标的精确度
+		position.coords.altitudeAccuracy 	用米做单位的海拔高度坐标的精度
+		position.coords.heading 			设备上用度数为单位的朝向(移动的方向)
+		position.coords.speed        		设备以米为单位的每秒的速度
+		position.timestamp 					时间戳
+	}
+	function onError(error) {
+		error.code
+		error.message
+	}
+
+	var watchID =navigator.geolocation.watchPosition(onSuccess,[onError],[Options]);
+	{ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
+
+	navigator.geolocation.clearWatch(watchID);
+-------------------------------------------------------------
+录制多媒体文件：
+	安装命令：cordova plugin add cordova-plugin-media-capture
+
+	function successfn(mediaFiles){
+		var i, path, len;
+	    for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+	        path = mediaFiles[i].fullPath;
+	    }
+	}
+	function errorfn(error){
+		error.code
+	}
+	
+	<!-- limit是文件的个数，即录制视频之类的可以录制多少个，duration是时间间隔 -->
+	var options = { limit: 3, duration: 10 , quality: 0};
+	navigator.device.capture.captureAudio(successfn, errorfn,options);
+	navigator.device.capture.captureImage(successfn, errorfn,options);
+	navigator.device.capture.captureVideo(successfn, errorfn,options);
+-------------------------------------------------------------------------------
+指南针：
+	安装命令：cordova plugin add cordova-plugin-device-orientation
+	navigator.compass.getCurrentHeading(compassSuccess, compassError);
+
+	function onSuccess(heading) {
+	    heading.magneticHeading
+	    heading.trueHeading
+		heading.headingAccuracy
+		heading.timestamp
+	};
+
+	function onError(error) {
+	    error.code
+	};
+
+	var options = {
+		<!-- 每三秒更新一次 -->
+	    frequency: 3000
+	}; 
+
+	navigator.compass.getCurrentHeading(onSuccess, onError);
+	
+	var watchID = navigator.compass.watchHeading(onSuccess, onError,options);
+
+	navigator.compass.clearWatch(watchID);
+-------------------------------------------------------------------------------
